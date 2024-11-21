@@ -44,7 +44,7 @@ void UserRepository::setupDatabase() {
   }
 }
 
-bool Database::insertUser(const std::string &matricula, const std::string &nome,
+bool UserRepository::insertUser(const std::string &matricula, const std::string &nome,
                           const std::string &email, const std::string &senha,
                           const std::string &turma, const std::string &endereco,
                           const std::string &tipo, const std::string &data) {
@@ -65,7 +65,7 @@ bool Database::insertUser(const std::string &matricula, const std::string &nome,
   }
 }
 
-bool Database::authenticateUser(const std::string &email,
+bool UserRepository::authenticateUser(const std::string &email,
                                 const std::string &senha) {
   try {
     pqxx::connection conn = get_connection();
