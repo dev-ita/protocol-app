@@ -1,5 +1,7 @@
 #include "users.hpp"
 #include "db_connection.hpp"
+#include <crow.h>
+#include <exception>
 #include <iostream>
 
 void UserRepository::setupDatabase() {
@@ -44,10 +46,11 @@ void UserRepository::setupDatabase() {
   }
 }
 
-bool UserRepository::insertUser(const std::string &matricula, const std::string &nome,
-                          const std::string &email, const std::string &senha,
-                          const std::string &turma, const std::string &endereco,
-                          const std::string &tipo, const std::string &data) {
+bool UserRepository::insertUser(
+    const std::string &matricula, const std::string &nome,
+    const std::string &email, const std::string &senha,
+    const std::string &turma, const std::string &endereco,
+    const std::string &tipo, const std::string &data) {
   try {
 
     pqxx::connection conn = get_connection();
@@ -66,7 +69,7 @@ bool UserRepository::insertUser(const std::string &matricula, const std::string 
 }
 
 bool UserRepository::authenticateUser(const std::string &email,
-                                const std::string &senha) {
+                                      const std::string &senha) {
   try {
     pqxx::connection conn = get_connection();
     pqxx::work txn(conn);
@@ -78,5 +81,66 @@ bool UserRepository::authenticateUser(const std::string &email,
   } catch (const std::exception &e) {
     std::cerr << "Error authenticating user: " << e.what() << std::endl;
     return false;
+  }
+}
+
+crow::json::wvalue
+UserRepository::getUserByMatricula(const std::string &matricula) {
+  try {
+    pqxx::connection conn = get_connection();
+    pqxx::work txn(conn);
+
+    // Query para buscar o usuário pela matrícula
+    std::string query = "SELECT * FROM users WHERE matricula = $1";
+    pqxx::result result = txn.exec_params(query, matricula);
+
+    if (result.empty()) {
+      return {{"error", "Usuário não encontrado"}};
+    }
+
+    // Obtendo os dados do usuário
+    const auto &row = result[0];
+    crow::json::wvalue user;
+    user["matricula"] = row["matricula"].as<std::string>();
+    user["nome"] = row["nome"].as<std::string>();
+    user["email"] = row["email"].as<std::string>();
+    user["turma"] = row["turma"].as<std::string>();
+    user["endereco"] = row["endereco"].as<std::string>();
+    user["tipo"] = row["tipo"].as<std::string>();
+    user["data"] = row["data"].as<std::string>();
+    return user;
+
+  } catch (const std::exception &e) {
+    return {{"error", e.what()}};
+  }
+}
+
+crow::json::wvalue UserRepository::getUserByEmail(const std::string &email) {
+  try {
+    pqxx::connection conn = get_connection();
+    pqxx::work txn(conn);
+
+    // Query para buscar o usuário pela matrícula
+    std::string query = "SELECT * FROM users WHERE email = $1";
+    pqxx::result result = txn.exec_params(query, email);
+
+    if (result.empty()) {
+      return {{"error", "Usuário não encontrado"}};
+    }
+
+    // Obtendo os dados do usuário
+    const auto &row = result[0];
+    crow::json::wvalue user;
+    user["matricula"] = row["matricula"].as<std::string>();
+    user["nome"] = row["nome"].as<std::string>();
+    user["email"] = row["email"].as<std::string>();
+    user["turma"] = row["turma"].as<std::string>();
+    user["endereco"] = row["endereco"].as<std::string>();
+    user["tipo"] = row["tipo"].as<std::string>();
+    user["data"] = row["data"].as<std::string>();
+    return user;
+
+  } catch (const std::exception &e) {
+    return {{"error", e.what()}};
   }
 }
