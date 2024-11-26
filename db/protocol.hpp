@@ -8,6 +8,7 @@
 class ProtocolRepository {
 public:
   static void setupDatabase();
+  static std::vector<crow::json::wvalue> getAllProtocols();
   static bool insertProtocol(const std::string &data, int matricula,
                              const std::string &categoria,
                              const std::string &assunto,

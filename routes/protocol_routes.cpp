@@ -40,3 +40,12 @@ crow::response deleteProtocol(int id) {
   }
   return crow::response(500, "Error deleting protocol");
 }
+
+crow::response getAllProtocols() {
+  try {
+    auto protocols = ProtocolRepository::getAllProtocols();
+    return crow::json::wvalue(protocols);
+  } catch (const std::exception &e) {
+    return crow::response(500, e.what());
+  }
+}

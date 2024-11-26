@@ -111,3 +111,34 @@ bool ProtocolRepository::deleteProtocol(int id) {
     return false;
   }
 }
+
+
+std::vector<crow::json::wvalue> ProtocolRepository::getAllProtocols() {
+  try {
+    pqxx::connection conn = get_connection();
+    pqxx::work txn(conn);
+
+    pqxx::result result = txn.exec("SELECT * FROM protocolos");
+
+    std::vector<crow::json::wvalue> protocols;
+
+    for (const auto &row : result) {
+      crow::json::wvalue protocol;
+      protocol["id"] = row["id"].as<int>();
+      protocol["data"] = row["data"].as<std::string>();
+      protocol["matricula"] = row["matricula"].as<std::string>();
+      protocol["categoria"] = row["categoria"].as<std::string>();
+      protocol["assunto"] = row["assunto"].as<std::string>();
+      protocol["justificativa"] = row["justificativa"].as<std::string>();
+      protocol["setor"] = row["setor"].as<std::string>();
+      protocol["status"] = row["status"].as<std::string>();
+
+      protocols.push_back(protocol);
+    }
+
+    return protocols;
+  } catch (const std::exception &e) {
+    std::cerr << "Error fetching protocols: " << e.what() << std::endl;
+    throw;
+  }
+}
