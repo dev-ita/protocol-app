@@ -1,5 +1,7 @@
-#include "db/users.hpp"
-#include "routes/routes.hpp"
+#include "db/protocol.hpp"
+#include "db/user.hpp"
+#include "routes/protocol_routes.hpp"
+#include "routes/user_routes.hpp"
 #include <crow.h>
 #include <crow/app.h>
 #include <crow/middlewares/cors.h>
@@ -7,6 +9,7 @@
 int main() {
 
   UserRepository::setupDatabase();
+  ProtocolRepository::setupDatabase();
 
   crow::App<crow::CORSHandler> app;
 
@@ -22,6 +25,10 @@ int main() {
   CROW_ROUTE(app, "/login").methods("POST"_method)(loginUser);
   CROW_ROUTE(app, "/user/<string>").methods("GET"_method)(getUserByMatricula);
 
+  CROW_ROUTE(app, "/protocol").methods("POST"_method)(addProtocol);
+  CROW_ROUTE(app, "/protocol/<string>").methods("GET"_method)(listProtocols);
+  CROW_ROUTE(app, "/protocol/<int>").methods("PUT"_method)(updateProtocol);
+  CROW_ROUTE(app, "/protocol/<int>").methods("DELETE"_method)(deleteProtocol);
 
   app.port(8080).multithreaded().run();
 }

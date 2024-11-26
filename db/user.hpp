@@ -16,7 +16,6 @@ public:
   static crow::json::wvalue getUserByMatricula(const std::string &matricula);
   
   static crow::json::wvalue
-  getUserByEmail(const std::string &email);
-};
+  getUserByEmail(const std::string &email); };
 
 #endif // !DATABASE_HPP

@@ -1,3 +1,3 @@
-g++ main.cpp ./routes/routes.cpp ./db/users.cpp ./db/db_connection.cpp -lpqxx -lpq -lpthread
+g++ main.cpp ./routes/user_routes.cpp ./db/user.cpp ./db/db_connection.cpp ./routes/protocol_routes.cpp ./db/protocol.cpp -lpqxx -lpq -lpthread
 
 

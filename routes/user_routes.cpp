@@ -1,5 +1,6 @@
-#include "../routes/routes.hpp"
-#include "../db/users.hpp"
+#include <crow.h>
+#include "../routes/user_routes.hpp"
+#include "../db/user.hpp"
 
 crow::response registerUser(const crow::request &req) {
   auto data = crow::json::load(req.body);
