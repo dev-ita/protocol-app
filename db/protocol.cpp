@@ -1,4 +1,3 @@
-
 #include "protocol.hpp"
 #include "db_connection.hpp"
 #include <iostream>
