@@ -36,7 +36,7 @@ void UserRepository::setupDatabase() {
                 endereco TEXT NOT NULL,
                 tipo TEXT NOT NULL,
                 data DATE NOT NULL,
-                telefone TEXT NOT NULL,
+                telefone TEXT NOT NULL
             );
         )");
     txn.commit();
