@@ -16,8 +16,7 @@ public:
                              const std::string &setor,
                              const std::string &status);
 
-  static std::vector<crow::json::wvalue>
-  getProtocolsByMatricula(int matricula);
+  static std::vector<crow::json::wvalue> getProtocolsByMatricula(int matricula);
 
   static bool updateProtocol(int id, const std::string &status);
 
