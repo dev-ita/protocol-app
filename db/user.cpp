@@ -62,7 +62,7 @@ bool UserRepository::insertUser(
     txn.exec_params(
         "INSERT INTO users (matricula, nome, email, senha, turma, endereco, "
         "tipo, data, telefone, campus, curso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-        matricula, nome, email, senha, turma, endereco, tipo, data, telefone);
+        matricula, nome, email, senha, turma, endereco, tipo, data, telefone, campus, curso);
     txn.commit();
     return true;
   } catch (const std::exception &e) {
