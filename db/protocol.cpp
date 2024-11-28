@@ -111,7 +111,6 @@ bool ProtocolRepository::deleteProtocol(int id) {
   }
 }
 
-
 std::vector<crow::json::wvalue> ProtocolRepository::getAllProtocols() {
   try {
     pqxx::connection conn = get_connection();
@@ -139,5 +138,37 @@ std::vector<crow::json::wvalue> ProtocolRepository::getAllProtocols() {
   } catch (const std::exception &e) {
     std::cerr << "Error fetching protocols: " << e.what() << std::endl;
     throw;
+  }
+}
+
+crow::json::wvalue ProtocolRepository::getProtocolById(int id) {
+  try {
+    pqxx::connection conn = get_connection();
+    pqxx::work txn(conn);
+
+    // Query para buscar o protocolo pelo id
+    std::string query = "SELECT * FROM protocolos WHERE id = $1";
+    pqxx::result result = txn.exec_params(query, id);
+
+    if (result.empty()) {
+      return {{"error", "protocolo não encontrado"}};
+    }
+
+    // Obtendo os dados do protocolo
+    const auto &row = result[0];
+    crow::json::wvalue protocol;
+    protocol["id"] = row["id"].as<int>();
+    protocol["data"] = row["data"].as<std::string>();
+    protocol["matricula"] = row["matricula"].as<std::string>();
+    protocol["categoria"] = row["categoria"].as<std::string>();
+    protocol["assunto"] = row["assunto"].as<std::string>();
+    protocol["justificativa"] = row["justificativa"].as<std::string>();
+    protocol["setor"] = row["setor"].as<std::string>();
+    protocol["status"] = row["status"].as<std::string>();
+
+    return protocol;
+
+  } catch (const std::exception &e) {
+    return {{"error", e.what()}};
   }
 }

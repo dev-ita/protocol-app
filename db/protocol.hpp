@@ -21,6 +21,8 @@ public:
   static bool updateProtocol(int id, const std::string &status);
 
   static bool deleteProtocol(int id);
+
+  static crow::json::wvalue getProtocolById(int id);
 };
 
 #endif

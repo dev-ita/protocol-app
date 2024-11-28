@@ -49,3 +49,7 @@ crow::response getAllProtocols() {
     return crow::response(500, e.what());
   }
 }
+
+crow::response getProtocolById(int id) {
+  return ProtocolRepository::getProtocolById(id);
+}

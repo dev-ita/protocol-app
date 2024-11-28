@@ -8,5 +8,6 @@ crow::response listProtocols(const std::string &matricula);
 crow::response updateProtocol(const crow::request &req, int id);
 crow::response deleteProtocol(int id);
 crow::response getAllProtocols();
+crow::response getProtocolById(int id);
 
 #endif
