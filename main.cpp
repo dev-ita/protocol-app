@@ -26,7 +26,7 @@ int main() {
   CROW_ROUTE(app, "/user/<string>").methods("GET"_method)(getUserByMatricula);
 
   CROW_ROUTE(app, "/protocol").methods("POST"_method)(addProtocol);
-  CROW_ROUTE(app, "/protocol/<string>").methods("GET"_method)(listProtocols);
+  CROW_ROUTE(app, "/protocols/<string>").methods("GET"_method)(listProtocols);
   CROW_ROUTE(app, "/protocol/<int>").methods("PUT"_method)(updateProtocol);
   CROW_ROUTE(app, "/protocol/<int>").methods("DELETE"_method)(deleteProtocol);
   CROW_ROUTE(app, "/protocols").methods("GET"_method)(getAllProtocols);

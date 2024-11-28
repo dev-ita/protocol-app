@@ -146,6 +146,8 @@ crow::json::wvalue ProtocolRepository::getProtocolById(int id) {
     pqxx::connection conn = get_connection();
     pqxx::work txn(conn);
 
+    std::cout << "id: " << id << "\n";
+
     // Query para buscar o protocolo pelo id
     std::string query = "SELECT * FROM protocolos WHERE id = $1";
     pqxx::result result = txn.exec_params(query, id);
