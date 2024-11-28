@@ -59,7 +59,7 @@ bool UserRepository::insertUser(
 
     txn.exec_params(
         "INSERT INTO users (matricula, nome, email, senha, turma, endereco, "
-        "tipo, data, telefone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9",
+        "tipo, data, telefone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
         matricula, nome, email, senha, turma, endereco, tipo, data, telefone);
     txn.commit();
     return true;
