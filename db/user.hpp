@@ -10,7 +10,7 @@ public:
   static bool insertUser(const std::string &matricula, const std::string &nome,
                          const std::string &email, const std::string &senha,
                          const std::string &turma, const std::string &endereco,
-                         const std::string &tipo, const std::string &data, const std::string &telefone);
+                         const std::string &tipo, const std::string &data, const std::string &telefone, const std::string &campus, const std::string &curso);
   static bool authenticateUser(const std::string &email,
                                const std::string &senha);
   static crow::json::wvalue getUserByMatricula(const std::string &matricula);

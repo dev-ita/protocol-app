@@ -36,7 +36,9 @@ void UserRepository::setupDatabase() {
                 endereco TEXT NOT NULL,
                 tipo TEXT NOT NULL,
                 data DATE NOT NULL,
-                telefone TEXT NOT NULL
+                telefone TEXT NOT NULL,
+                campus TEXT NOT NULL,
+                curso TEXT NOT NULL
             );
         )");
     txn.commit();
@@ -51,7 +53,7 @@ bool UserRepository::insertUser(
     const std::string &matricula, const std::string &nome,
     const std::string &email, const std::string &senha,
     const std::string &turma, const std::string &endereco,
-    const std::string &tipo, const std::string &data, const std::string &telefone) {
+    const std::string &tipo, const std::string &data, const std::string &telefone, const std::string &campus, const std::string &curso) {
   try {
 
     pqxx::connection conn = get_connection();
@@ -59,7 +61,7 @@ bool UserRepository::insertUser(
 
     txn.exec_params(
         "INSERT INTO users (matricula, nome, email, senha, turma, endereco, "
-        "tipo, data, telefone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+        "tipo, data, telefone, campus, curso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
         matricula, nome, email, senha, turma, endereco, tipo, data, telefone);
     txn.commit();
     return true;
@@ -110,6 +112,8 @@ UserRepository::getUserByMatricula(const std::string &matricula) {
     user["tipo"] = row["tipo"].as<std::string>();
     user["data"] = row["data"].as<std::string>();
     user["telefone"] = row["telefone"].as<std::string>();
+    user["campus"] = row["campus"].as<std::string>();
+    user["curso"] = row["curso"].as<std::string>();
     return user;
 
   } catch (const std::exception &e) {
@@ -141,6 +145,8 @@ crow::json::wvalue UserRepository::getUserByEmail(const std::string &email) {
     user["tipo"] = row["tipo"].as<std::string>();
     user["data"] = row["data"].as<std::string>();
     user["telefone"] = row["telefone"].as<std::string>();
+    user["campus"] = row["campus"].as<std::string>();
+    user["curso"] = row["curso"].as<std::string>();
     return user;
 
   } catch (const std::exception &e) {
